@@ -21,9 +21,16 @@ class Config:
 
 
 class DevConfig(Config):
+
     DEBUG = True
 
 
+class ProductionConfig(Config):
+
+    DEBUG = False
+
+
 config = {
-    'dev': DevConfig
+    'dev': DevConfig,
+    'prod': ProductionConfig,
 }
