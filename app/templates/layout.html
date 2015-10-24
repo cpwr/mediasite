@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+{% block head %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel=stylesheet href='{{ url_for("static/css", filename="bootstrap.min.css") }}' type=text/css>
+    <link rel=stylesheet href='{{ url_for("static/font-awesome/css", filename="font-awesome.min.css") }}' type=text/css>
+    <link rel=stylesheet href='{{ url_for("static/css", filename="animate.min.css.css") }}' type=text/css>
+    <link rel=stylesheet href='{{ url_for("static/css", filename="creative.css") }}' type=text/css>
+    <title>Mediasite - {% block title %}{% endblock %}</title>
+{% endblock %}
+</head>
+<body>
+{% block body %}
+{% block navbar %}
+{% endblock %}
+{% block content %}
+{% endblock %}
+{% block scripts %}
+    <script src="{{ url_for('static/js', filename='jquery.js') }}"></script>
+    <script src="{{ url_for('static/js', filename='bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static/js', filename='jquery.easing.min.js') }}"></script>
+    <script src="{{ url_for('static/js', filename='jquery.fittext.js') }}"></script>
+    <script src="{{ url_for('static/js', filename='wow.min.js') }}"></script>
+    <script src="{{ url_for('static/js', filename='creative.js') }}"></script>
+{{ super() }}
+{% endblock %}
+{% endblock %}
+</body>
+</html>
