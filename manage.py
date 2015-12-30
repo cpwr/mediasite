@@ -1,13 +1,16 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
-from flask.ext.script import Manager, Shell
-from flask.ext.migrate import Migrate, MigrateCommand
+from flask.ext.script import Manager
+from flask.ext.script import Shell
+from flask.ext.migrate import Migrate
+from flask.ext.migrate import MigrateCommand
 
-from app import create_app, db
-from app.models import Permission, Role, User
+from app import app
+from app import db
+from app.models import Permission
+from app.models import Role
+from app.models import User
 
-
-app = create_app('dev')
 
 manager = Manager(app)
 migrate = Migrate(app, db)
@@ -64,4 +67,5 @@ def insert_roles():
 
 
 if __name__ == '__main__':
+    app.run(debug=True)
     manager.run()

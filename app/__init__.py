@@ -1,32 +1,30 @@
 # -*- coding: utf-8 -*-
 
 from flask import Flask
+
 from flask.ext.bootstrap import Bootstrap
 from flask.ext.mail import Mail
 from flask.ext.moment import Moment
 from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.login import LoginManager
 from flask.ext.pagedown import PageDown
+from flask.ext.wtf import CsrfProtect
 
-from config import config
+import config
+
+from app.lib.auth import AnonymousUser
+
+app = Flask(__name__)
+app.config.from_object(config)
+
+bootstrap = Bootstrap(app)
+mail = Mail(app)
+moment = Moment(app)
+db = SQLAlchemy(app)
+pagedown = PageDown(app)
+csrf = CsrfProtect(app)
 
 
-bootstrap = Bootstrap()
-mail = Mail()
-moment = Moment()
-db = SQLAlchemy()
-pagedown = PageDown()
-
-
-def create_app(config_name):
-    app = Flask(__name__)
-    app.config.from_object(config[config_name])
-    config[config_name].init_app(app)
-
-    bootstrap.init_app(app)
-    mail.init_app(app)
-    moment.init_app(app)
-    db.init_app(app)
+def register_blueprints(app):
 
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
@@ -37,4 +35,5 @@ def create_app(config_name):
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
 
-    return app
+
+register_blueprints(app=app)
