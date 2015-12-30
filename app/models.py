@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
+from flask import jsonify
 from sqlalchemy import desc
 
 from app import db
@@ -76,11 +77,10 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String, index=True)
-    name = db.Column(db.String(64), index=True)
-    login = db.Column(db.String(64), unique=True, index=True)
+    username = db.Column(db.String(64), unique=True)
     status = db.Column(db.Integer, default=STATUS_ACTIVE, index=True)
-    is_admin = db.Column(db.Boolean, default=False, index=True)
-    reg_date = db.Column(db.DateTime, default=datetime.now, index=True)
+    is_admin = db.Column(db.Boolean, default=False)
+    reg_date = db.Column(db.DateTime, default=datetime.now)
 
     permissions = db.relationship("Permission", secondary=user_permission_associate, backref="users", lazy='dynamic')
     roles = db.relationship("Role", secondary=user_role_associate, backref="users", lazy='dynamic')
@@ -97,6 +97,25 @@ class User(db.Model):
         lazy='dynamic', cascade='all, delete-orphan',
     )
     comments = db.relationship('Comment', backref='author', lazy='dynamic')
+
+    def __init__(self, email, username):
+        self.email = email
+        self.username = username
+
+    def to_json(self):
+        return dict(
+            id=self.id,
+            email=self.email,
+            username=self.username,
+            status=self.status,
+            is_admin=self.is_admin,
+            reg_date=self.reg_date,
+            permissions=self.permissions,
+            roles=self.roles,
+            followed=self.followed,
+            followers=self.followers,
+            comments=self.comments,
+        )
 
 
 class Post(db.Model):
@@ -127,7 +146,31 @@ class Post(db.Model):
 
     author = db.relationship("User", backref="posts", lazy="joined")
     category = db.relationship("PostCategory", backref=db.backref('posts', order_by=desc('Post.datetime')), lazy="joined")
-    tags = db.relationship("Tag", secondary=post_tag_associate, backref=db.backref('posts', order_by=desc('Post.datetime')), lazy="joined")
+    tags = db.relationship(
+        "Tag",
+        secondary=post_tag_associate,
+        backref=db.backref(
+            'posts',
+            order_by=desc('Post.datetime')
+        ),
+        lazy="joined"
+    )
+
+    def to_json(self):
+        return dict(
+            id=self.id,
+            title=self.title,
+            text=self.text,
+            timestamp=self.timestamp,
+            author_id=self.author_id,
+            comments=self.comments,
+            category_id=self.category_id,
+            comments_count=self.comments_count,
+            status=self.status,
+            author=self.author,
+            category=self.category,
+            tags=self.tags,
+        )
 
 
 class Comment(db.Model):

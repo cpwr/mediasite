@@ -2,6 +2,7 @@
 
 import os
 
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 WTF_CSRF_ENABLED = True
 SECRET_KEY = 'very-secret-key'
@@ -17,7 +18,8 @@ MAIL_USE_TLS = True
 MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
 MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
 
-UPLOAD_FOLDER = '/temp/files'
+UPLOAD_FOLDER = os.path.join(basedir, 'app/media/')
+
 MAX_CONTENT_LENGTH = 75 * 1024 * 1024
 ALLOWED_FILE_EXTENSIONS = set(
     [
