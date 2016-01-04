@@ -8,6 +8,7 @@ from flask.ext.moment import Moment
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.pagedown import PageDown
 from flask.ext.wtf import CsrfProtect
+from flask_debugtoolbar import DebugToolbarExtension
 
 from config import config
 
@@ -19,6 +20,7 @@ moment = Moment()
 db = SQLAlchemy()
 pagedown = PageDown()
 csrf = CsrfProtect()
+toolbar = DebugToolbarExtension()
 
 
 def register_blueprints(app):
@@ -44,6 +46,7 @@ def create_app(config_name):
     db.init_app(app=app)
     pagedown.init_app(app=app)
     csrf.init_app(app=app)
+    toolbar.init_app(app=app)
 
     register_blueprints(app=app)
 
