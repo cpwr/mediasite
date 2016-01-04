@@ -5,12 +5,12 @@ from flask.ext.script import Shell
 from flask.ext.migrate import Migrate
 from flask.ext.migrate import MigrateCommand
 
-from app import app
-from app import db
+from app import db, create_app
 from app.models import Permission
 from app.models import Role
 from app.models import User
 
+app = create_app(config_name='dev')
 
 manager = Manager(app)
 migrate = Migrate(app, db)
@@ -67,5 +67,4 @@ def insert_roles():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
     manager.run()

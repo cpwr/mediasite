@@ -52,16 +52,16 @@ p {
 }
 
 .bg-primary {
-    background-color: #f05f40;
+    background-color: rgba(35, 128, 37, 0.72);
 }
 
 .bg-dark {
     color: #fff;
-    background-color: #222;
+    background-color: rgba(35, 128, 37, 0.72);
 }
 
 .text-faded {
-    color: rgba(255,255,255,.7);
+    color: rgba(0, 0, 0, 0.7);
 }
 
 section {

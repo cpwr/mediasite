@@ -9,19 +9,16 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.pagedown import PageDown
 from flask.ext.wtf import CsrfProtect
 
-import config
+from config import config
 
 from app.lib.auth import AnonymousUser
 
-app = Flask(__name__)
-app.config.from_object(config)
-
-bootstrap = Bootstrap(app)
-mail = Mail(app)
-moment = Moment(app)
-db = SQLAlchemy(app)
-pagedown = PageDown(app)
-csrf = CsrfProtect(app)
+bootstrap = Bootstrap()
+mail = Mail()
+moment = Moment()
+db = SQLAlchemy()
+pagedown = PageDown()
+csrf = CsrfProtect()
 
 
 def register_blueprints(app):
@@ -36,4 +33,18 @@ def register_blueprints(app):
     app.register_blueprint(auth_blueprint)
 
 
-register_blueprints(app=app)
+def create_app(config_name):
+    app = Flask(__name__)
+
+    app.config.from_object(config[config_name])
+
+    bootstrap.init_app(app=app)
+    mail.init_app(app=app)
+    moment.init_app(app=app)
+    db.init_app(app=app)
+    pagedown.init_app(app=app)
+    csrf.init_app(app=app)
+
+    register_blueprints(app=app)
+
+    return app
