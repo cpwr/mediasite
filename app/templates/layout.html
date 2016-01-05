@@ -2,12 +2,20 @@
 <html lang="en">
 
 <head>
+{% block head %}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-{% block head %}
+    <!-- You can use open graph tags to customize link previews.
+    Learn more: https://developers.facebook.com/docs/sharing/webmasters -->
+	<meta property="og:url"           content="http://www.your-domain.com/your-page.html" />
+	<meta property="og:type"          content="website" />
+	<meta property="og:title"         content="Your Website Title" />
+	<meta property="og:description"   content="Your description" />
+	<meta property="og:image"         content="http://www.your-domain.com/favicon.ico" />
+
     <link rel=stylesheet href='{{ url_for("static", filename="css/bootstrap.css") }}' type=text/css>
     <link rel=stylesheet href='{{ url_for("static", filename="font-awesome/css/font-awesome.css") }}' type=text/css>
     <link rel=stylesheet href='{{ url_for("static", filename="css/animate.css") }}' type=text/css>
@@ -18,10 +26,38 @@
 </head>
 <body>
 {% block body %}
+<div id="fb-root"></div>
+<!-- Load Facebook SDK for JavaScript -->
+<script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v2.5&appId=503481589823563";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+</script>
+<!-- Load JavaScript for Twitter -->
+<script>
+    !function(d,s,id){
+        var js, fjs=d.getElementsByTagName(s)[0],
+                p=/^http:/.test(d.location)?'http':'https';
+        if(!d.getElementById(id)){
+            js=d.createElement(s);
+            js.id=id;
+            js.src=p+'://platform.twitter.com/widgets.js';
+            fjs.parentNode.insertBefore(js,fjs);
+        }
+    }(document, 'script', 'twitter-wjs');
+</script>
+<!-- Place this tag in your head or just before your close body tag. -->
+<script src="{{ url_for('static', filename='js/platform.js') }}" async defer>
+  {lang: 'ru'}
+</script>
+
 {% block navbar %}
-{% endblock %}
+{% endblock navbar %}
 {% block content %}
-{% endblock %}
+{% endblock content %}
 {% block scripts %}
     <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
@@ -29,7 +65,7 @@
     <script src="{{ url_for('static', filename='js/jquery.fittext.js') }}"></script>
     <script src="{{ url_for('static', filename='js/wow.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/creative.js') }}"></script>
-{% endblock %}
-{% endblock %}
+{% endblock scripts %}
+{% endblock body %}
 </body>
 </html>
