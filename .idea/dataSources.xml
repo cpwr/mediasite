@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="1249069263">
+    <data-source source="LOCAL" name="mediasite" uuid="8b69ea46-7f22-4854-9490-62d997ee3faf">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/mediasite</jdbc-url>
+      <libraries />
+    </data-source>
+  </component>
+</project>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="mediasite" uuid="8b69ea46-7f22-4854-9490-62d997ee3faf">
+      <secret-storage>master_key</secret-storage>
+      <user-name>postgres</user-name>
+      <schema-pattern>mediasite.pg_catalog mediasite.public</schema-pattern>
+      <default-schemas>mediasite.pg_catalog mediasite.public</default-schemas>
+    </data-source>
+  </component>
+</project>

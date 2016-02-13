@@ -21,8 +21,8 @@
     <link rel=stylesheet href='{{ url_for("static", filename="css/animate.css") }}' type=text/css>
     <link rel=stylesheet href='{{ url_for("static", filename="css/creative.css") }}' type=text/css>
     <link rel=stylesheet href='{{ url_for("static", filename="css/hover.css") }}' type=text/css>
-    <title>Mediasite - {% block title %}{% endblock %}</title>
-{% endblock %}
+    <title>Mediasite - {% block title %}{% endblock title %}</title>
+{% endblock head %}
 </head>
 <body>
 {% block body %}
