@@ -56,5 +56,8 @@ docs/_build/
 # PyBuilder
 target/
 
-# Data
+# user data
 media/
+
+# pycharm configs
+.idea/
