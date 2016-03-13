@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
 from flask import Flask
 
@@ -11,8 +11,7 @@ from flask.ext.wtf import CsrfProtect
 from flask_debugtoolbar import DebugToolbarExtension
 
 from config import config
-
-from app.lib.auth import AnonymousUser
+from .lib.auth import AnonymousUser
 
 bootstrap = Bootstrap()
 mail = Mail()
@@ -34,10 +33,13 @@ def register_blueprints(app):
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
 
+    from .api.v1 import api_v1
+    app.register_blueprint(api_v1)
+
 
 def create_app(config_name):
-    app = Flask(__name__)
 
+    app = Flask(__name__)
     app.config.from_object(config[config_name])
 
     bootstrap.init_app(app=app)
@@ -47,7 +49,8 @@ def create_app(config_name):
     pagedown.init_app(app=app)
     csrf.init_app(app=app)
     toolbar.init_app(app=app)
-
     register_blueprints(app=app)
+
+    from . import models
 
     return app

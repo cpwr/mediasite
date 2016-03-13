@@ -14,6 +14,8 @@ class Config:
     SQLALCHEMY_RECORD_QUERIES = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 
+    ADMIN_USERS_PER_PAGE = 10
+
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
     MAIL_USE_TLS = True
@@ -25,11 +27,8 @@ class Config:
     MAX_CONTENT_LENGTH = 75 * 1024 * 1024
     ALLOWED_FILE_EXTENSIONS = set(
         [
-            'xpm', 'pgm', 'webp', 'pbm', 'rgb', 'icb', 'ppm',
-            'bmp', 'pic', 'eps', 'jp2', 'tif', 'ico', 'odt',
-            'fodt', 'uot', 'dot', 'xml', 'html', 'rtf', 'png',
-            'jpg', 'jpeg', 'gif', 'txt', 'doc', 'docx', 'opt', 'pdf',
-            'xls', 'xslt', 'mp3'
+            'bmp', 'eps', 'icns', 'im', 'msp', 'pcx', 'ppm',
+            'png', 'tiff', 'ico', 'jpg', 'jpeg', 'gif'
         ]
     )
 
@@ -41,7 +40,7 @@ class Config:
 class DevelopmentConfig(Config):
 
     DEBUG = True
-    SERVER_NAME = '127.0.0.1:5000'
+    # SERVER_NAME = '127.0.0.1:5000'
 
 
 class ProductionConfig(Config):
