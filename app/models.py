@@ -103,6 +103,14 @@ class User(db.Model):
         self.email = email
         self.username = username
 
+    def get_permissions(self):
+        return set([permission.name for permission in self.permissions]).union(
+            set([permission.name for role in self.roles for permission in role.permissions])
+        )
+
+    def has_role(self, role):
+        return role in self.roles
+
     def to_json(self):
         return {
             'id': self.id,
@@ -111,7 +119,7 @@ class User(db.Model):
             'status': self.status,
             'is_admin': self.is_admin,
             'reg_date': self.reg_date,
-            'permissions': [p.id for p in self.permissions],
+            'permissions': [p.name for p in self.permissions],
             'roles': [r.id for r in self.roles],
             'followed': [u.id for u in self.followed],
             'followers': [u.id for u in self.followers],
