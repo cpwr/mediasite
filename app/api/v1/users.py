@@ -1,12 +1,11 @@
-# coding: utf-8
+from site import db
 
-from flask import request
 from flask import current_app
+from flask import request
+from site.models import User
 
+from app.api import api_v1
 from ..decorators import json
-from app import db
-from app.models import User
-from app.api.v1 import api_v1
 
 
 @api_v1.route('/users/<int:id>/', methods=['GET'])

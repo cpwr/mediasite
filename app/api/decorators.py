@@ -1,6 +1,5 @@
-# coding: utf-8
-
 import functools
+
 from flask import jsonify
 from werkzeug.exceptions import abort
 

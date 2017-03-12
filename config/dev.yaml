@@ -1,0 +1,8 @@
+db:
+  dsn: "postgresql://postgres:postgres@localhost:5432/mediasite"
+  timeout: 1
+
+app:
+  host: "example.com"
+  port: "8000"
+  debug: True

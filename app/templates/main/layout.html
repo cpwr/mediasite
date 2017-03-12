@@ -16,11 +16,11 @@
 	<meta property="og:description"   content="Your description" />
 	<meta property="og:image"         content="http://www.your-domain.com/favicon.ico" />
 
-    <link rel=stylesheet href='{{ url_for("static", filename="css/bootstrap.css") }}' type=text/css>
-    <link rel=stylesheet href='{{ url_for("static", filename="font-awesome/css/font-awesome.css") }}' type=text/css>
-    <link rel=stylesheet href='{{ url_for("static", filename="css/animate.css") }}' type=text/css>
-    <link rel=stylesheet href='{{ url_for("static", filename="css/creative.css") }}' type=text/css>
-    <link rel=stylesheet href='{{ url_for("static", filename="css/hover.css") }}' type=text/css>
+    <link rel=stylesheet href='{{ url("static", filename="css/bootstrap.css") }}' type=text/css>
+    <link rel=stylesheet href='{{ url("static", filename="font-awesome/css/font-awesome.css") }}' type=text/css>
+    <link rel=stylesheet href='{{ url("static", filename="css/animate.css") }}' type=text/css>
+    <link rel=stylesheet href='{{ url("static", filename="css/creative.css") }}' type=text/css>
+    <link rel=stylesheet href='{{ url("static", filename="css/hover.css") }}' type=text/css>
     <title>Mediasite - {% block title %}{% endblock title %}</title>
 {% endblock head %}
 </head>
@@ -50,7 +50,7 @@
     }(document, 'script', 'twitter-wjs');
 </script>
 <!-- Place this tag in your head or just before your close body tag. -->
-<script src="{{ url_for('static', filename='js/platform.js') }}" async defer>
+<script src="{{ url('static', filename='js/platform.js') }}" async defer>
   {lang: 'ru'}
 </script>
 
@@ -59,12 +59,12 @@
 {% block content %}
 {% endblock content %}
 {% block scripts %}
-    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/jquery.easing.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/jquery.fittext.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/wow.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/creative.js') }}"></script>
+    <script src="{{ url('static', filename='js/jquery.js') }}"></script>
+    <script src="{{ url('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url('static', filename='js/jquery.easing.min.js') }}"></script>
+    <script src="{{ url('static', filename='js/jquery.fittext.js') }}"></script>
+    <script src="{{ url('static', filename='js/wow.min.js') }}"></script>
+    <script src="{{ url('static', filename='js/creative.js') }}"></script>
 {% endblock scripts %}
 {% endblock body %}
 </body>

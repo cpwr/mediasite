@@ -1,70 +1,61 @@
-# coding: utf-8
+import sys
+import logging
+import asyncio
 
-from flask.ext.script import Manager
-from flask.ext.script import Shell
-from flask.ext.migrate import Migrate
-from flask.ext.migrate import MigrateCommand
+import click
+import uvloop
 
-from app import db, create_app
-from app.models import Permission
-from app.models import Role
-from app.models import User
+from app import init_web_app
+from app.config import parse_config
 
-app = create_app(config_name='dev')
+asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
-manager = Manager(app)
-migrate = Migrate(app, db)
-
-manager.add_command("shell", Shell)
-manager.add_command('db', MigrateCommand)
+logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+log = logging.getLogger(__name__)
 
 
-@manager.command
-def sync_permissions():
-    for name, title in Permission.PERMISSIONS:
-        permission = Permission.query.filter_by(name=name).first()
-        if permission is None:
-            p = Permission()
-            p.name = name
-            p.title = title
-            db.session.add(p)
-            db.session.commit()
+async def create_app(loop, host, port, config):
+
+    config = parse_config(config)
+
+    app = await init_web_app(loop, config)
+
+    handler = app.make_handler()
+    srv = await loop.create_server(handler, host, port)
+    log.info("Running server on %s:%s" % (host, port))
+    return app, srv, handler
 
 
-@manager.command
-def set_default_role():
-
-    user_role = Role.query.filter_by(name='user').first()
-
-    for user in User.query:
-        if not user.roles.all():
-            user.roles.append(user_role)
-            db.session.add(user)
-            db.session.commit()
-
-
-@manager.command
-def insert_roles():
-    roles = {
-        'user': ['post_comment'],
-        'moderator': [
-            'post_comment',
-            'write_articles', 'manage_comments',
-            'manage_articles', 'manage_users',
-        ]
-    }
-    permissions_map = {p.name: p for p in Permission.query}
-
-    for role, permissions in roles.items():
-        ur = Role.query.filter_by(name=role).first()
-        if ur is None:
-            r = Role()
-            for p in permissions:
-                r.permissions.append(permissions_map.get(p))
-            r.name = role
-            db.session.add(r)
-            db.session.commit()
-
+@click.command()
+@click.option(
+    "-o", "--host",
+    help="Host",
+    default='0.0.0.0',
+)
+@click.option(
+    "-p", "--port",
+    help="Port",
+    default=8000,
+)
+@click.option(
+    "-c", "--config",
+    help="Config",
+    default='config/dev.yaml',
+)
+def runserver(host, port, config):
+    loop = asyncio.get_event_loop()
+    app, srv, handler = loop.run_until_complete(create_app(loop, host, port, config))
+    try:
+        loop.run_forever()
+    except KeyboardInterrupt:
+        pass
+    finally:
+        srv.close()
+        loop.run_until_complete(srv.wait_closed())
+        loop.run_until_complete(app.shutdown())
+        loop.run_until_complete(app.cleanup())
+        loop.run_until_complete(handler.shutdown(30))
+    loop.close()
 
 if __name__ == '__main__':
-    manager.run()
+    runserver()
