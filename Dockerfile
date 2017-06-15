@@ -1,10 +1,4 @@
 FROM python:3.6-alpine
-MAINTAINER Hantsov Konstantin <hantsov@cantemo.com>
-
-RUN apk add -U bash netcat-openbsd jq
-# Install cassandra as separate docker layer command to reuse it in all
-# containers
-RUN pip install cassandra-driver==3.6.0
 
 ENV INSTALL_DIR=/opt/mediasite
 ENV PG_PORT: 5432
